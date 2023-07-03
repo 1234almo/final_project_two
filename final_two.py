@@ -40,4 +40,11 @@ def place_computer_ships():
             ships.append((x, y))
     return ships
 
-print(place_computer_ships())
+
+def check_destroyed_ship(position, ships):
+    # Function that checks if a ship is destroyed after every move
+    if position in ships:
+        ships.remove(position)
+        return True
+    return False
+
