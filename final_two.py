@@ -29,4 +29,15 @@ def place_user_ships():
     draw_battleship_map(ships)    
     return ships
 
-print(place_user_ships())
+
+def place_computer_ships():
+    # Function that randomly places computer ships on the board without showing the board to the player
+    ships = []
+    while len(ships) < 7:
+        x = random.randint(0, 9)
+        y = random.randint(0, 9)
+        if (x, y) not in ships:
+            ships.append((x, y))
+    return ships
+
+print(place_computer_ships())
