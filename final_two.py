@@ -104,4 +104,6 @@ def play_battleship():
         print("It's a tie!")
 
 
+play_battleship()
+
 
