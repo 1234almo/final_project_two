@@ -15,20 +15,34 @@ def draw_battleship_map(ship_positions):
 def place_user_ships():
     # Function that allows user to place their ships on the map
     ships = []
-    while len(ships) < 7:
-        try:
-            x = int(input("Enter the X coordinate for your ship (0-9): "))
-            y = int(input("Enter the Y coordinate for your ship (0-9): "))
-            if 0 <= x <= 9 and 0 <= y <= 9:
-                if (x, y) not in ships:
-                    ships.append((x, y))
+    for ship_size in SHIP_SIZES:
+        while True:
+            try:
+                print(f"Placing a ship of size {ship_size}")
+                x = int(input("Enter the X coordinate for your ship (0-9): "))
+                y = int(input("Enter the Y coordinate for your ship (0-9): "))
+                if 0 <= x <= 9 and 0 <= y <= 9:
+                    ship = [(x,y)]
+                    direction = input("Enter the direction (h for horizontal, v for vertical): ")
+                    for i in range(1, ship_size):
+                        if direction == 'h':
+                            new_position = (x + i, y)
+                        else:
+                            new_position = (x, y + i)
+                        if new_position[0] <= 9 and new_position[1] <=9:
+                            ship.append(new_position)
+                        else:
+                            raise ValueError("Invalid ship position. Try again")
+                    if all(position not in ships for position in ship):
+                        ships.append(ship)
+                        draw_battleship_map(ships)
+                        break
+                    else:
+                        print("The position already contains a ship. Try again.")
                 else:
-                    print("This position already contains a ship. Try again.")
-            else:
-                print("Coordinates are out of range. Try again.")
-        except ValueError:
-            print("Invalid input. Try again.")
-    draw_battleship_map(ships)    
+                    print("Coordinates are out of range. Try again.")
+            except ValueError:
+                print("Invalid input. Try again.")
     return ships
 
 
