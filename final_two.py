@@ -49,11 +49,23 @@ def place_user_ships():
 def place_computer_ships():
     # Function that randomly places computer ships on the board without showing the board to the player
     ships = []
-    while len(ships) < 7:
-        x = random.randint(0, 9)
-        y = random.randint(0, 9)
-        if (x, y) not in ships:
-            ships.append((x, y))
+    for ship_size in SHIP_SIZES:
+        while True:
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
+            ship = [(x, y)]
+            direction = random.choice(['h', 'v'])
+            for i in range(1, ship_size):
+                if direction == 'h':
+                    new_position = (x + i, y)
+                else:
+                    new_position = (x, y + i)
+                if new_position[0] <= 9 and new_position[1] <=9:
+                    ships.append(ship)
+                    break   
+            if all(position not in ships for position in ship):
+                ships.append(ship)
+                break
     return ships
 
 
