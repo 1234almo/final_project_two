@@ -71,9 +71,14 @@ def place_computer_ships():
 
 def check_destroyed_ship(position, ships):
     # Function that checks if a ship is destroyed after every move
-    if position in ships:
-        ships.remove(position)
-        return True
+    for ship in ships:
+        if position in ships:
+            ships.remove(position)
+            if not ship:
+                ships.remove([])
+                return True
+            else:
+                return len(ship)
     return False
 
 
