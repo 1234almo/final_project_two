@@ -1,5 +1,7 @@
 import random
 
+SHIP_SIZES = [5, 3, 3, 2, 2, 2]
+
 def draw_battleship_map(ship_positions):
     # Function to create the map of the game
     grid = [['.' for point in range(10)] for point in range(10)]
