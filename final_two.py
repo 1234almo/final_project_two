@@ -22,7 +22,7 @@ def place_user_ships():
                 x = int(input("Enter the X coordinate for your ship (0-9): "))
                 y = int(input("Enter the Y coordinate for your ship (0-9): "))
                 if 0 <= x <= 9 and 0 <= y <= 9:
-                    ship = [(x,y)]
+                    ship = [(x, y)]
                     direction = input("Enter the direction (h for horizontal, v for vertical): ")
                     for i in range(1, ship_size):
                         if direction == 'h':
@@ -87,10 +87,12 @@ def play_battleship():
     # Function that puts everything above together to be able to play the game
     user_ships = place_user_ships()
     computer_ships = place_computer_ships()
+    user_remaining_ships = list(user_ships)
+    computer_remaining_ships = list(computer_ships)
     user_score = 0
     computer_score = 0
 
-    while user_ships and computer_ships:
+    while user_remaining_ships and computer_remaining_ships:
         # User's turn
         valid_user_guess = False
         while not valid_user_guess:
@@ -106,9 +108,12 @@ def play_battleship():
 
         user_guess = (user_guess_x, user_guess_y)
 
-        if check_destroyed_ship(user_guess, computer_ships):
-            print("Congratulations! You destroyed a computer's ship.")
+        ship_size = check_destroyed_ship(user_guess, computer_remaining_ships)
+        if ship_size:
+            print(f"Congratulations! You hit a computer's ship, remaining size {ship_size}.")
             user_score += 1
+            if not computer_remaining_ships:
+                break
         else:
             print("You missed!")
 
@@ -118,9 +123,12 @@ def play_battleship():
         computer_guess = (computer_guess_x, computer_guess_y)
         print("Computer's guess:", computer_guess)
 
-        if check_destroyed_ship(computer_guess, user_ships):
-            print("Oh no! The computer destroyed one of your ships.")
+        ship_size = check_destroyed_ship(computer_guess, user_remaining_ships)
+        if ship_size:
+            print(f"Oh no! The computer hit one of your ships, remaining size {ship_size}.")
             computer_score += 1
+            if not user_remaining_ships:
+                break
         else:
             print("The computer missed!")
 
