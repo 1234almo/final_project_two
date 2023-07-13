@@ -88,6 +88,17 @@ def check_destroyed_ship(position, ships):
     return False
 
 
+def select_next_target(previous_hit, ship_positions):
+    # Function to select the next target position next to the previous hit
+    x, y = previous_hit
+    neighbors = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
+    valid_neighbors = [neighbor for neighbor in neighbors if neighbor not in ship_positions and 0 <= neighbor[0] <= 9 and 0 <= neighbor[1] <= 9]
+    if valid_neighbors:
+        return random.choice(valid_neighbors)
+    else:
+        return None
+
+
 
 def play_battleship():
     # Function that puts everything above together to be able to play the game
@@ -97,6 +108,8 @@ def play_battleship():
     computer_remaining_ships = list(computer_ships)
     user_score = 0
     computer_score = 0
+    previous_computer_hit = None
+    next_computer_target = None
 
     while user_remaining_ships and computer_remaining_ships:
         # User's turn
@@ -124,19 +137,27 @@ def play_battleship():
             print("You missed!")
 
         # Computer's turn
-        computer_guess_x = random.randint(0, 9)
-        computer_guess_y = random.randint(0, 9)
-        computer_guess = (computer_guess_x, computer_guess_y)
+        if previous_computer_hit and next_computer_target:
+            computer_guess = next_computer_target
+        else:
+            computer_guess_x = random.randint(0, 9)
+            computer_guess_y = random.randint(0, 9)
+            computer_guess = (computer_guess_x, computer_guess_y)
+
         print("Computer's guess:", computer_guess)
 
         ship_size = check_destroyed_ship(computer_guess, user_remaining_ships)
         if ship_size:
             print(f"Oh no! The computer hit one of your ships, remaining size {ship_size}.")
             computer_score += 1
+            previous_computer_hit = computer_guess
+            next_computer_target = select_next_target(computer_guess, user_remaining_ships)
             if not user_remaining_ships:
                 break
         else:
             print("The computer missed!")
+            previous_computer_hit = None
+            next_computer_target = None
 
         print("Your ships remaining:", len(user_remaining_ships))
         print("Computer's ships remaining:", len(computer_remaining_ships))
