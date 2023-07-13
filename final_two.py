@@ -5,11 +5,13 @@ SHIP_SIZES = [5, 3, 3, 2, 2, 2]
 def draw_battleship_map(ship_positions):
     # Function to create the map of the game
     grid = [['.' for point in range(10)] for point in range(10)]
-    for position in ship_positions:
-        x, y = position
-        grid[y][x] = 'X'
+    for positions in ship_positions:
+        for position in positions:
+            x, y = position
+            grid[y][x] = 'X'
     for row in grid:
         print(' '.join(row))
+    print("-----------------------")
 
 
 def place_user_ships():
@@ -61,7 +63,8 @@ def place_computer_ships():
                 else:
                     new_position = (x, y + i)
                 if new_position[0] <= 9 and new_position[1] <=9:
-                    ships.append(ship)
+                    ship.append(new_position)
+                else:
                     break   
             if all(position not in ships for position in ship):
                 ships.append(ship)
