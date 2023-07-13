@@ -4,7 +4,7 @@ SHIP_SIZES = [5, 3, 3, 2, 2, 2]
 
 def draw_battleship_map(ship_positions):
     # Function to create the map of the game
-    grid = [['.' for point in range(10)] for point in range(10)]
+    grid = [['.' for _ in range(10)] for _ in range(10)]
     for positions in ship_positions:
         for position in positions:
             x, y = position
@@ -34,7 +34,7 @@ def place_user_ships():
                         if new_position[0] <= 9 and new_position[1] <=9:
                             ship.append(new_position)
                         else:
-                            raise ValueError("Invalid ship position. Try again")
+                            raise ValueError("Invalid ship position. Try again.")
                     if all(position not in ships for position in ship):
                         ships.append(ship)
                         draw_battleship_map(ships)
@@ -75,8 +75,8 @@ def place_computer_ships():
 def check_destroyed_ship(position, ships):
     # Function that checks if a ship is destroyed after every move
     for ship in ships:
-        if position in ships:
-            ships.remove(position)
+        if position in ship:
+            ship.remove(position)
             if not ship:
                 ships.remove([])
                 return True
@@ -135,8 +135,8 @@ def play_battleship():
         else:
             print("The computer missed!")
 
-        print("Your ships remaining:", len(user_ships))
-        print("Computer's ships remaining:", len(computer_ships))
+        print("Your ships remaining:", len(user_remaining_ships))
+        print("Computer's ships remaining:", len(computer_remaining_ships))
         print("-----------------------")
 
     # Determine the winner
