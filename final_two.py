@@ -29,8 +29,10 @@ def place_user_ships():
                     for i in range(1, ship_size):
                         if direction == 'h':
                             new_position = (x + i, y)
-                        else:
+                        if direction == 'v':
                             new_position = (x, y + i)
+                        else:
+                            print("Invalid letter. Try again.")
                         if new_position[0] <= 9 and new_position[1] <=9:
                             ship.append(new_position)
                         else:
