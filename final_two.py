@@ -35,7 +35,8 @@ def place_user_ships():
                             ship.append(new_position)
                         else:
                             raise ValueError("Invalid ship position. Try again.")
-                    if all(position not in ships for position in ship):
+                    overlapping_positions = set(position for existing_ship in ships for position in existing_ship) & set(ship)
+                    if not overlapping_positions:
                         ships.append(ship)
                         draw_battleship_map(ships)
                         break
