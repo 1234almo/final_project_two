@@ -128,7 +128,11 @@ def play_battleship():
         user_guess = (user_guess_x, user_guess_y)
 
         ship_size = check_destroyed_ship(user_guess, computer_remaining_ships)
-        if ship_size:
+        print("ship size user:", ship_size)
+        if ship_size is True:
+            print(f"You destroyed the computer's ship!")
+            user_score +=1
+        elif ship_size:
             print(f"Congratulations! You hit a computer's ship, remaining size {ship_size}.")
             user_score += 1
             if not computer_remaining_ships:
@@ -147,7 +151,11 @@ def play_battleship():
         print("Computer's guess:", computer_guess)
 
         ship_size = check_destroyed_ship(computer_guess, user_remaining_ships)
-        if ship_size:
+        print("ship size computer:", ship_size)
+        if ship_size is True:
+            print(f"Uff, the computer destroyed your ship!")
+            computer_score +=1
+        elif ship_size:
             print(f"Oh no! The computer hit one of your ships, remaining size {ship_size}.")
             computer_score += 1
             previous_computer_hit = computer_guess
